@@ -17,19 +17,10 @@ import subprocess
 
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
-# Note the following are only used with SPI:
+
 DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
-
-# Beaglebone Black pin configuration:
-# RST = 'P9_12'
-# Note the following are only used with SPI:
-# DC = 'P9_15'
-# SPI_PORT = 1
-# SPI_DEVICE = 0
-
-# 128x32 display with hardware I2C:
 
 class OLED():
     def __init__(self,filename,clientID):
@@ -128,45 +119,27 @@ class OLED():
 
         
         self.disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
-
-        
-        # on a Raspberry Pi with the 128x32 display you might use:
-        # disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, sclk=18, din=25, cs=22)
-
-        # Initialize library.
         self.disp.begin()
 
         # Clear display.
         self.disp.clear()
         self.disp.display()
-
-        # Create blank image for drawing.
-        # Make sure to create image with mode '1' for 1-bit color.
         width = self.disp.width
         height = self.disp.height
         self.image = Image.new('1', (width, height))
-
-        # Get drawing object to draw on image.
+        
         self.draw = ImageDraw.Draw(self.image)
 
-        # Draw a black filled box to clear the image.
-        self.draw.rectangle((0,0,width,height), outline=0, fill=0)
 
-        # Draw some shapes.
-        # First define some constants to allow easy resizing of shapes.
+        self.draw.rectangle((0,0,width,height), outline=0, fill=0)
+        
         padding = -2
         self.top = padding
         self.bottom = height-padding
-        # Move left to right keeping track of the current x position for drawing shapes.
+        
         self.x = 0
 
-
-        # Load default font.
         self.font = ImageFont.load_default()
-
-        # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
-        # Some other nice fonts to try: http://www.dafont.com/bitmap.php
-        # font = ImageFont.truetype('Minecraftia.ttf', 8)
 
         self.draw.rectangle((0,0,width,height), outline=0, fill=0)
         self.draw.text((self.x+6, self.top+8), "Connecting...", font=self.font, fill=255)
