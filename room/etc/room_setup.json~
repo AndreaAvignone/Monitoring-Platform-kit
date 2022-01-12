@@ -1,5 +1,0 @@
-{
-    "description": "Room settings",
-    "hub_port":9090,
-    "room_info": { "room_ID": "room_X", "room_name":"room_X"}
-}
